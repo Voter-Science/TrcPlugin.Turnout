@@ -34,26 +34,40 @@
         Loading...
     </div>
     <div id="main2"  style="display:none">
+        <h1>
+            <img src="./logo.png"> Voter Turnout Report
+        </h1>
         <p>
-            This is an empty TRC plugin that demonstrates calling PluginMain().
+            Here is reporting based on who has voted so far. Each section pivots on a different column. 
         </p>
 
-        <h2>Basic sheet information:</h2>
-        <table>
-            <tr><td>Name:</td><td><div id="SheetName"></div></td></tr>
-            <tr><td>Parent:</td><td><div id="ParentSheetName"></div></td></tr>
-            <tr><td>Version:</td><td><div id="SheetVer"></div></td></tr>
-            <tr><td>Total Rows:</td><td><div id="RowCount"></div></td></tr>
-            <tr><td>Last refreshed:</td><td><div id="LastRefreshed"></div></td></tr>
-        </table>      
+        <h4>Totals</h4>
+        <div id="xtotal"></div>
 
-        <button onclick="_plugin.onClickRefresh()">Refresh!</button>
+        <h4>Pivot by 'Targeted' voted.</h4>
+        <p>Targets are determined by your campaign and visible in the XTargetPri column. 
+            These are the names that appear in bold in the main view. 
+        </p>
+        <div id="xtarget"></div>
 
-        <button onclick="_plugin.onGetSheetContents()">GetSheetContents!</button>
-        <div id="contents">
+        <h4>By Party Identification breakdown</h4>        
+        <div id="xparty"></div>
 
-        <p>Congratulations! You made your first TRC plugin!</p>
-        </div>
+        <h4>By Result of contact:</h4>
+        <p>
+            This lets you see how your canvassing operation is affecting voter turnout.
+            In theory, voters that you talked to will have a higher turnout overall than non-contacts. 
+        </p>
+        <div id="xcontact"></div>
+
+        <h4>By supporters</h4>
+        <p>'Supporters' are individuals that specifically support your campaign. They may come from both parties. 
+            Make sure all your supporters vote! <p>        
+        <div id="xsupporter"></div>
+
+        <p>Here is a list of specific individuals that <em>said they'd support you</em> but <em>haven't voted yet</em>.
+        Make sure they vote!<p> 
+        <div id="xs2"></div>    
     </div>
 </body>
 </html>
