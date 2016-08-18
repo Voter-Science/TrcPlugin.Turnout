@@ -44,6 +44,43 @@
         <h4>Totals</h4>
         <div id="xtotal"></div>
 
+        <p>Explanation of the columns</p>
+
+        <table>
+            <tr>
+                <td>Value</td>
+                <td></td>
+                <td>Comments</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td>Number of people in this group.</td>
+            </tr>
+            <tr>
+                <td>Voted</td>
+                <td></td>
+                <td>Number of people in this group <em>that voted</em>.</td>
+            </tr>
+            <tr>
+                <td>Turnout%=</td>
+                <td> (<b>Voted</b> in this group) / (<b>Total</b> size of this group)</td>
+                <td>What % of this group voted?</td>
+            </tr>
+            <tr>
+                <td>PercentOfTotal=</td>
+                <td>(<b>Total</b> size of this group) / (<b>Grand Total</b> across  all groups)</td>
+                <td>How large is this group?</td>
+            </tr>
+            <tr>
+                <td>PercentOfVoted=</td>
+                <td>(<b>Voted</b> in this group) / (<b>Grand Total Voted</b> across all groups )</td>
+                <td>How large was this group's turnout?</td>
+            </tr>
+        </table>
+
+        
+
         <h4>Pivot by 'Targeted' voted.</h4>
         <p>Targets are determined by your campaign and visible in the XTargetPri column. 
             These are the names that appear in bold in the main view. 
@@ -68,6 +105,9 @@
         <p>Here is a list of specific individuals that <em>said they'd support you</em> but <em>haven't voted yet</em>.
         Make sure they vote!<p> 
         <div id="xs2"></div>    
+
+        <h4>Split by precinct</h4>        
+        <div id="xprecinct"></div>
     </div>
 </body>
 </html>
