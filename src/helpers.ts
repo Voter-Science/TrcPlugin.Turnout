@@ -1,5 +1,5 @@
 // Helpers for doing actual data manipluation 
-import * as trc from '../node_modules/trclib/trc2';
+import * as trc from 'trclib/trc2';
 
 export class Helpers {
     private static isTrue(val: string): boolean {
