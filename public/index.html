@@ -1,8 +1,10 @@
 ﻿<!DOCTYPE html>
 
-<link rel="stylesheet" type="text/css" href="trcgrid.css">
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="bundle.js"></script>
 <script>
     // plugin startup shim
@@ -34,82 +36,130 @@
         <div id="prebody2"></div>
         Loading...
     </div>
-    <div id="main2"  style="display:none">
+    <div id="main2" class="container" style="display:none">
         <h1>
             <img src="./logo.png"> Voter Turnout Report
         </h1>
+
         <p>
             Here is reporting based on who has voted so far. Each section pivots on a different column. 
         </p>
         <div id="date"></div>
 
-        <h4>Totals</h4>
-        <div id="xtotal"></div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">Totals</h4>
+            </div>
+            <div class="panel-body">
+                
+                <div id="xtotal"></div>
 
-        <p>Explanation of the columns</p>
+                <p>Explanation of the columns</p>
 
-        <table>
-            <tr>
-                <td>Value</td>
-                <td></td>
-                <td>Comments</td>
-            </tr>
-            <tr>
-                <td>Total</td>
-                <td></td>
-                <td>Number of people in this group.</td>
-            </tr>
-            <tr>
-                <td>Voted</td>
-                <td></td>
-                <td>Number of people in this group <em>that voted</em>.</td>
-            </tr>
-            <tr>
-                <td>Turnout%=</td>
-                <td> (<b>Voted</b> in this group) / (<b>Total</b> size of this group)</td>
-                <td>What % of this group voted?</td>
-            </tr>
-            <tr>
-                <td>PercentOfTotal=</td>
-                <td>(<b>Total</b> size of this group) / (<b>Grand Total</b> across  all groups)</td>
-                <td>How large is this group?</td>
-            </tr>
-            <tr>
-                <td>PercentOfVoted=</td>
-                <td>(<b>Voted</b> in this group) / (<b>Grand Total Voted</b> across all groups )</td>
-                <td>How large was this group's turnout?</td>
-            </tr>
-        </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Value</th>
+                            <th></th>
+                            <th>Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total</td>
+                            <td></td>
+                            <td>Number of people in this group.</td>
+                        </tr>
+                        <tr>
+                            <td>Voted</td>
+                            <td></td>
+                            <td>Number of people in this group <em>that voted</em>.</td>
+                        </tr>
+                        <tr>
+                            <td>Turnout%=</td>
+                            <td> (<b>Voted</b> in this group) / (<b>Total</b> size of this group)</td>
+                            <td>What % of this group voted?</td>
+                        </tr>
+                        <tr>
+                            <td>PercentOfTotal=</td>
+                            <td>(<b>Total</b> size of this group) / (<b>Grand Total</b> across  all groups)</td>
+                            <td>How large is this group?</td>
+                        </tr>
+                        <tr>
+                            <td>PercentOfVoted=</td>
+                            <td>(<b>Voted</b> in this group) / (<b>Grand Total Voted</b> across all groups )</td>
+                            <td>How large was this group's turnout?</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">Pivot by 'Targeted' voted.</h4>
+            </div>
+            <div class="panel-body">
+                <p>Targets are determined by your campaign and visible in the XTargetPri column. 
+                    These are the names that appear in bold in the main view. 
+                </p>
+                <div id="xtarget-download"></div>
+                <div id="xtarget"></div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">By Party Identification breakdown</h4>
+            </div>
+            <div class="panel-body">
+                <div id="xparty-download"></div>
+                <div id="xparty"></div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">By Result of contact:</h4>
+            </div>
+            <div class="panel-body">
+                <p>
+                    This lets you see how your canvassing operation is affecting voter turnout.
+                    In theory, voters that you talked to will have a higher turnout overall than non-contacts. 
+                </p>
+                <div id="xcontact-download"></div>
+                <div id="xcontact"></div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">By supporters</h4>
+            </div>
+            <div class="panel-body">
         
+                <p>'Supporters' are individuals that specifically support your campaign. They may come from both parties. 
+                    Make sure all your supporters vote! <p>      
+                <div id="xsupporter-download"></div>
+                <div id="xsupporter"></div>
 
-        <h4>Pivot by 'Targeted' voted.</h4>
-        <p>Targets are determined by your campaign and visible in the XTargetPri column. 
-            These are the names that appear in bold in the main view. 
-        </p>
-        <div id="xtarget"></div>
+                <p>Here is a list of specific individuals that <em>said they'd support you</em> but <em>haven't voted yet</em>.
+                Make sure they vote!<p> 
+                <div id="xs2-download"></div>
+                <div id="xs2"></div>    
+            </div>
+        </div>
 
-        <h4>By Party Identification breakdown</h4>        
-        <div id="xparty"></div>
-
-        <h4>By Result of contact:</h4>
-        <p>
-            This lets you see how your canvassing operation is affecting voter turnout.
-            In theory, voters that you talked to will have a higher turnout overall than non-contacts. 
-        </p>
-        <div id="xcontact"></div>
-
-        <h4>By supporters</h4>
-        <p>'Supporters' are individuals that specifically support your campaign. They may come from both parties. 
-            Make sure all your supporters vote! <p>        
-        <div id="xsupporter"></div>
-
-        <p>Here is a list of specific individuals that <em>said they'd support you</em> but <em>haven't voted yet</em>.
-        Make sure they vote!<p> 
-        <div id="xs2"></div>    
-
-        <h4>Split by precinct</h4>        
-        <div id="xprecinct"></div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">Split by precinct</h4>
+            </div>
+            <div class="panel-body">
+                <div id="xprecinct-download"></div>
+                <div id="xprecinct"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -71,11 +71,12 @@ export class MyPlugin {
 
 
         // "Supporter"
-        var c1 = h.Helpers.makeHist(data, "Supporter", null);
-        var r = new html.RenderSheet("xsupporter", c1);
+        var xsupporter = h.Helpers.makeHist(data, "Supporter", null);
+        var r = new html.RenderSheet("xsupporter", xsupporter);
         r.render();
+        html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xsupporter-download"), () => {return xsupporter;});
 
-        var c1 = h.Helpers.makeHist(data, "Party", {
+        var xparty = h.Helpers.makeHist(data, "Party", {
             "1": "(1) Hard GOP",
             "2": "(2) Soft GOP",
             "3": "(3) Independent",
@@ -83,29 +84,44 @@ export class MyPlugin {
             "5": "(5) Hard Dem",
             "": "Unidentified"
         });
-        var r = new html.RenderSheet("xparty", c1);
+        var r = new html.RenderSheet("xparty", xparty);
         r.render();
+        html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xparty-download"), () => {return xparty;});
 
-        var c1 = h.Helpers.makeHist(data, "XTargetPri",
+        var xtarget = h.Helpers.makeHist(data, "XTargetPri",
             {
                 "1": "Targeted voter",
                 "": "Non targeted voter"
             });
-        var r = new html.RenderSheet("xtarget", c1);
+        var r = new html.RenderSheet("xtarget", xtarget);
         r.render();
+        html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xtarget-download"), () => {return xtarget;});
 
-        var c1 = h.Helpers.makeHist(data, "ResultOfContact", null);
-        var r = new html.RenderSheet("xcontact", c1);
+        var xcontact = h.Helpers.makeHist(data, "ResultOfContact", null);
+        var r = new html.RenderSheet("xcontact", xcontact);
         r.render();
+        html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xcontact-download"), () => {return xcontact;});
 
-        var c1 = h.Helpers.getSupportersThatNotVoted(data);
-        var r = new html.RenderSheet("xs2", c1);
+        var xs2 = h.Helpers.getSupportersThatNotVoted(data);
+        var r = new html.RenderSheet("xs2", xs2);
         r.setColumns(["RecId", "FirstName", "LastName", "PrecinctName"]);
         r.render();
+        html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xs2-download"), () => {return xs2;});
 
         // "precinct"
-        var c1 = h.Helpers.makeHist(data, "PrecinctName", null);
-        var r = new html.RenderSheet("xprecinct", c1);
+        var xprecinct = h.Helpers.makeHist(data, "PrecinctName", null);
+        var r = new html.RenderSheet("xprecinct", xprecinct);
         r.render();
+        html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xprecinct-download"), () => {return xprecinct;});
+        
+        this.applyBootstrapStyling();
+    }
+
+    //TODO: remove if/when html helper renders elements with Bootstrap styles
+    private applyBootstrapStyling():void {
+        $("table").addClass("table table-striped");
+        $("table").removeAttr("border");
+
+        //TODO: convert td's in thead > tr's to th
     }
 }
