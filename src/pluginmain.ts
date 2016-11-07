@@ -117,21 +117,34 @@ export class MyPlugin {
         
         this.applyBootstrapStyling();
 
-        var heatmapData = this.getHeatmapData(data);
-        this.createHeatmap(heatmapData);
+        var party1 = this.getHeatmapData(data, "Party", "1");
+        this.createHeatmap(party1, "party-1-heatmap");
+
+        var party5 = this.getHeatmapData(data, "Party", "5");
+        this.createHeatmap(party5, "party-5-heatmap");
+
+        var xvoted1 = this.getHeatmapData(data, "XVoted", "1");
+        this.createHeatmap(xvoted1, "xvoted-1-heatmap");
     }
 
-    private getHeatmapData(source:trc.ISheetContents):any {
+    private getHeatmapData(source:trc.ISheetContents, filterColumnName?:string, filterColumnValue?:any):any {
         let count = source["Lat"].length;
+
+        console.log(source);
 
         var dic:any = {};
 
         var max:number = 0;
 
         for(let i:number=0; i<count; i++) {
+
+            if (filterColumnName) {
+                if (source[filterColumnName][i] != filterColumnValue) continue;
+            }
+
             let lat = source["Lat"][i];
             let lng = source["Long"][i];
-
+            
             let key = "".concat(lat, lng);
             if (!key) continue;
             
@@ -154,7 +167,7 @@ export class MyPlugin {
         return {max:max, data:dataArray};
     }
 
-    private createHeatmap(data:any): void {
+    private createHeatmap(data:any, containerId:string): void {
         // don't forget to add gmaps-heatmap.js
         //var myLatlng = new google.maps.LatLng(25.6586, -80.3568);
         var myLatlng = new google.maps.LatLng(data.data[0].lat, data.data[0].lng);
@@ -164,7 +177,7 @@ export class MyPlugin {
         center: myLatlng
         };
         // standard map
-        var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+        var map = new google.maps.Map(document.getElementById(containerId), myOptions);
         // heatmap layer
         var heatmap = new HeatmapOverlay(map, 
         {
