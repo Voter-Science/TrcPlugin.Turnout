@@ -132,17 +132,11 @@ export class MyPlugin {
             let lat = source["Lat"][i];
             let lng = source["Long"][i];
 
-            let raw = "".concat(lat,lng);
-
-            if(!raw) continue;
-
-            let roundedLat = parseFloat(lat).toFixed(3);
-            let roundedLng = parseFloat(lng).toFixed(3);
-
-            let key = "".concat(roundedLat, roundedLng);
+            let key = "".concat(lat, lng);
+            if (!key) continue;
             
             if (!dic[key]) {
-                dic[key] = { lat: roundedLat, lng: roundedLng, count: 1}
+                dic[key] = { lat: lat, lng: lng, count: 1}
             }
             else {
                 dic[key]["count"]++;
@@ -166,7 +160,7 @@ export class MyPlugin {
         var myLatlng = new google.maps.LatLng(data.data[0].lat, data.data[0].lng);
         // map options,
         var myOptions = {
-        zoom: 5,
+        zoom: 14,
         center: myLatlng
         };
         // standard map
@@ -175,10 +169,10 @@ export class MyPlugin {
         var heatmap = new HeatmapOverlay(map, 
         {
             // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-            "radius": .5,
+            "radius": 10,
             "maxOpacity": .5, 
             // scales the radius based on map zoom
-            "scaleRadius": true, 
+            "scaleRadius": false, 
             // if set to false the heatmap uses the global maximum for colorization
             // if activated: uses the data maximum within the current map boundaries 
             //   (there will always be a red spot with useLocalExtremas true)
