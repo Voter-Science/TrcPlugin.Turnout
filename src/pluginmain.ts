@@ -15,7 +15,7 @@ export class MyPlugin {
     private _options: trc.PluginOptionsHelper;
 
     // Target election date we show a report for.
-    private _electionDate = new Date(2016, 7, 2); // Aug 2nd, 2016 
+    private _electionDate = new Date(2017, 11 - 1, 7); // Aug 2nd, 2016 
 
     // Entry point called from brower. 
     // This creates real browser objects and passes in. 
@@ -69,12 +69,22 @@ export class MyPlugin {
         var c1 = h.Helpers.getTotal(data);
         var r = new html.RenderSheet("xtotal", c1);
         r.render();
+        if (data["Supporter"] != undefined) {
+            // "Supporter"
+            var xsupporter = h.Helpers.makeHist(data, "Supporter", null);
+            var r = new html.RenderSheet("xsupporter", xsupporter);
+            r.render();
+            html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xsupporter-download"), () => { return xsupporter; });
 
-        // "Supporter"
-        var xsupporter = h.Helpers.makeHist(data, "Supporter", null);
-        var r = new html.RenderSheet("xsupporter", xsupporter);
-        r.render();
-        html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xsupporter-download"), () => { return xsupporter; });
+            var xs2 = h.Helpers.getSupportersThatNotVoted(data);
+            var r = new html.RenderSheet("xs2", xs2);
+            r.setColumns(["RecId", "FirstName", "LastName", "PrecinctName"]);
+            r.render();
+            html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xs2-download"), () => { return xs2; });
+    
+        } else {
+            $('#xsupporter').append($('<p>[No supporter column set]</p>'));
+        }
 
         var xparty = h.Helpers.makeHist(data, "Party", {
             "1": "(1) Hard GOP",
@@ -88,9 +98,8 @@ export class MyPlugin {
         r.render();
         html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xparty-download"), () => { return xparty; });
 
-        
-        if (data["XTargetPri"] != undefined)
-        {            
+
+        if (data["XTargetPri"] != undefined) {
             var xtarget = h.Helpers.makeHist(data, "XTargetPri",
                 {
                     "1": "Targeted voter",
@@ -107,12 +116,6 @@ export class MyPlugin {
         var r = new html.RenderSheet("xcontact", xcontact);
         r.render();
         html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xcontact-download"), () => { return xcontact; });
-
-        var xs2 = h.Helpers.getSupportersThatNotVoted(data);
-        var r = new html.RenderSheet("xs2", xs2);
-        r.setColumns(["RecId", "FirstName", "LastName", "PrecinctName"]);
-        r.render();
-        html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xs2-download"), () => { return xs2; });
 
         // "precinct"
         var xprecinct = h.Helpers.makeHist(data, "PrecinctName", null);

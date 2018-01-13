@@ -5,6 +5,6 @@
     "Author" :  "Voter-Science",
     "Website" :  "https://github.com/Voter-Science/TrcPlugin.Turnout",
     "Description": "A report showing voter turnout stats. Includes pivots based on factors such as targeting, party id, and supporter status.",        
-    "Version": "1.0.0", // User SemVer
-    "Tags": [ "demo", "report", "gotv", "turnout" ]
+    "Version": "1.0.2", // User SemVer
+    "Tags": [  "reports", "gotv", "turnout" ]
 }
