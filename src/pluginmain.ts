@@ -28,7 +28,7 @@ export class MyPlugin {
         var opts2 = trc.PluginOptionsHelper.New(opts, trcSheet);
 
         html.Loading("prebody2");
-
+        
         // Do any IO here...
 
         var plugin = new MyPlugin(trcSheet, opts2, next);
@@ -48,6 +48,17 @@ export class MyPlugin {
     }
 
     private refresh2(next: (plugin: MyPlugin) => void) {
+        this._sheet.getSheetContents(
+            data => {
+                if (data["XVoted"] == undefined) {
+                    alert("There is no voter-turnout information in this sheet. (It's missing an 'XVoted' column).");
+                }
+                this.makeCharts(data);
+
+                next(this);
+            });
+
+        /*
         // $$$ cache this? 
         this._sheet.findVersion(this._electionDate,
             (version: number) => {
@@ -61,6 +72,7 @@ export class MyPlugin {
                     }, undefined, undefined, undefined, version
                 );
             }, undefined);
+            */
     }
 
 
@@ -176,6 +188,10 @@ export class MyPlugin {
     }
 
     private createHeatmap(data: any, containerId: string): void {
+        if (data.data.length == 0)
+        {
+            return;
+        }
         // don't forget to add gmaps-heatmap.js
         //var myLatlng = new google.maps.LatLng(25.6586, -80.3568);
         var myLatlng = new google.maps.LatLng(data.data[0].lat, data.data[0].lng);
