@@ -2,6 +2,19 @@
 import * as trc from 'trclib/trc2';
 
 export class Helpers {
+    // parse "15%" --> 15,  .15 --> 15
+    //  return 0...100
+    public static percentToInt(hist : string) : number {
+        if (!hist || hist.length == 0) {
+            return NaN;
+        } 
+        var result : number = parseFloat(hist);
+        if (hist[hist.length-1] != '%') {
+            result = result * 100.0;
+        }
+        return result;
+    }
+
     private static isTrue(val: string): boolean {
         if ((val == "1") || (val.toLowerCase() == "yes")) {
             return true;
@@ -34,10 +47,13 @@ export class Helpers {
         data : trc.ISheetContents) : trc.ISheetContents
     {
         var cVoted: string[] = data["XVoted"];
+
+        var colHist = data["History"];
         
         var grandTotal = 0;
         var grandTotalVoted = 0;
-
+        var projectedVotes = 0;
+        var projectedTotal = 0;
 
         // Count them
         for (var iRow = 0; iRow < cVoted.length; iRow++) {
@@ -45,12 +61,26 @@ export class Helpers {
             if (Helpers.isTrue(cVoted[iRow])) {                
                 grandTotalVoted++;
             }            
+
+            if (!!colHist) {
+                var hist = colHist[iRow];
+                var z : number =Helpers.percentToInt(hist);
+                if (!isNaN(z))
+                {
+                    projectedVotes += (z/100);
+                    projectedTotal++;
+                }
+            }
         }     
 
         var x : trc.ISheetContents = {};
         x["Total"] = [grandTotal.toString()];
         x["Voted"] = [grandTotalVoted.toString()];
         x["Turnout%"] = [Helpers.Per(grandTotalVoted, grandTotal)];
+        if (projectedTotal > 0) 
+        {
+            x["Projected%"] = [Helpers.Per(projectedVotes, projectedTotal)];
+        }
         return x;       
     }
 

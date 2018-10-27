@@ -2,6 +2,7 @@
 // Calculate and draw turnout chart 
 
 import * as trc from 'trclib/trc2';
+import * as h from './helpers';
 
 declare var $: any; // JQuery 
 declare var Chart: any; // external definition for Chart,  http://www.chartjs.org/docs/latest/getting-started/
@@ -131,6 +132,7 @@ export class TurnoutChart
         var valueToday = labels[TurnoutChart.IntPercentToBucket(currentVotes * 100 / totalRegistered)];
         var valueProjected = labels[TurnoutChart.IntPercentToBucket(projectedVotes * 100/ totalRegistered)];
         
+        
         // Uses https://github.com/chartjs/chartjs-plugin-annotation  to draw the vertical markers. 
         var chart = new Chart(ctx, {
             // The type of chart we want to create
@@ -186,6 +188,7 @@ export class TurnoutChart
                 }
               },
             // The data for our dataset
+            // See  http://www.chartjs.org/docs/latest/configuration/elements#point-styles for details here
             data: {
                 labels: labels,
                 lineAtIndex: 2,
@@ -194,6 +197,8 @@ export class TurnoutChart
                     lineTension : 0,
                     label: "GOP Ahead",
                     backgroundColor: "#ff6384", // 'rgb(255, 99, 132)',
+                    pointBackgroundColor : '#000000',
+                    pointRadius : 1,
                     borderColor: '#000000',
                     data: dataGop
                 },
@@ -203,6 +208,8 @@ export class TurnoutChart
                     label: "DEM Ahead",
                     backgroundColor: "#36a2eb", 
                     borderColor: '#000000',
+                    pointBackgroundColor : '#000000',
+                    pointRadius : 1,
                     data: dataDem
                 }]
             }
@@ -213,10 +220,6 @@ export class TurnoutChart
 
     // return 1...100
     private static percentToInt(hist : string) : number {
-        var result = parseFloat(hist);
-        if (hist[hist.length-1] != '%') {
-            result = result * 100.0;
-        }
-        return result;
+        return h.Helpers.percentToInt(hist);
     }
 }
