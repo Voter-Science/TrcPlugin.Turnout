@@ -11,6 +11,8 @@
 
 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGU_ME0ojsMVk-VktaIx_BP381AOjmlDM">
     </script>
@@ -288,6 +290,11 @@
                 <h4 class="panel-title">Totals</h4>
             </div>
             <div class="panel-body">
+
+                <div id="TurnoutChart">
+                    <p>This chart shows results at different voter turnout levels. This is a combination of Party and History columns. Positive numbers mean GOP ahead, Negative numbers mean DEM ahead. </p>
+                    <canvas id="myChart" width="300" height="150"></canvas>
+                </div>
                 
                 <div id="xtotal"></div>
 

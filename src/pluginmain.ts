@@ -6,6 +6,7 @@ import * as trc from 'trclib/trc2';
 import * as html from 'trclib/trchtml';
 import * as trcFx from 'trclib/trcfx';
 import * as h from './helpers';
+import * as turnoutchart from './turnoutchart';
 declare var $: any; // external definition for JQuery 
 declare var google: any;
 declare var HeatmapOverlay: any;
@@ -78,7 +79,10 @@ export class MyPlugin {
 
     private makeCharts(data: trc.ISheetContents): void {
 
-        var c1 = h.Helpers.getTotal(data);
+        var c1 = h.Helpers.getTotal(data); // total voted 
+
+        turnoutchart.TurnoutChart.work(data, parseInt(c1["Voted"][0]));
+
         var r = new html.RenderSheet("xtotal", c1);
         r.render();
         if (data["Supporter"] != undefined) {
