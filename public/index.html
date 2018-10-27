@@ -290,13 +290,6 @@
                 <h4 class="panel-title">Totals</h4>
             </div>
             <div class="panel-body">
-
-                <div id="TurnoutChart">
-                    <p>This chart shows results (GOP % relative to 50%) at different voter turnout levels.
-                         This is a combination of Party and History columns. Positive numbers mean GOP ahead (>50%, shaded red), Negative numbers mean DEM ahead (GOP is &lt; 50%, shaded blue). </p>
-                    <canvas id="myChart" width="300" height="150"></canvas>
-                </div>
-                
                 <div id="xtotal"></div>
 
                 <p>Explanation of the columns</p>
@@ -321,17 +314,17 @@
                             <td>Number of people in this group <em>that voted</em>.</td>
                         </tr>
                         <tr>
-                            <td>Turnout%=</td>
+                            <td>Turnout% =</td>
                             <td> (<b>Voted</b> in this group) / (<b>Total</b> size of this group)</td>
                             <td>What % of this group voted?</td>
                         </tr>
                         <tr>
-                            <td>PercentOfTotal=</td>
+                            <td>PercentOfTotal =</td>
                             <td>(<b>Total</b> size of this group) / (<b>Grand Total</b> across  all groups)</td>
                             <td>How large is this group?</td>
                         </tr>
                         <tr>
-                            <td>PercentOfVoted=</td>
+                            <td>PercentOfVoted =</td>
                             <td>(<b>Voted</b> in this group) / (<b>Grand Total Voted</b> across all groups )</td>
                             <td>How large was this group's turnout?</td>
                         </tr>
@@ -348,7 +341,7 @@
                 <h4 class="panel-title">Pivot by 'Targeted' voted.</h4>
             </div>
             <div class="panel-body">
-                <p>Targets are determined by your campaign and visible in the XTargetPri column. 
+                <p>Targets are determined by your campaign and visible in the XTargetPri column. (<a href="https://blog.voter-science.com/canvass-targeting/">Learn more about targeting</a>)
                     These are the names that appear in bold in the main view. 
                 </p>
                 <div id="xtarget-download"></div>
@@ -371,6 +364,48 @@
                 <div class="heatmap" id="party-5-heatmap"></div>
             </div>
         </div>
+
+
+        <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapse1">Trends</a>                        
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse">
+                    <div class="panel-body" >
+                        <p>These are visualizations based on the party and history models. <b>Disclaimer:</b> These are only predictions and rely on the generic models provided.
+                            Candidate turnout rarely matches the generic party id. </p> Use these to look for trends, not precise numbers. 
+        
+                        <div id="TurnoutChart">
+                            <h3>Projected results</h3>
+                            <p>This chart shows results (GOP % relative to 50%) at different voter turnout levels. 
+                                Positive numbers mean GOP ahead (>50%, shaded red), Negative numbers mean DEM ahead (GOP is &lt; 50%, shaded blue).
+                            </p>
+                            <p>Use this chart to look for trends such as how results change with increased turnout.</p>
+                            <ul>
+                                <li>The y-axis for party turnout is based on the Party column.</li>
+                                <li>The x-axis for Turnout% is based on the  History column.</li>
+                                <li>"Today" shows current voter turnout based on the XVoted column. </li>
+                                <li>"Projected" shows projected turnout based on the History column.</li>
+                            </ul>                           
+
+                            <canvas id="myChart" width="300" height="150"></canvas>
+        
+                            <h3>Actual vs. Expected by PartyId</h3>
+                            <p>This shows actual turnout grouped by propensity (percent likliness to vote).  Each vertical bar is a propensity bucket, and theneach bar is a stacked chart by party id. 
+                                We expect the higher propensity buckets to have higher turnout. So the majority of votes will be in the 80%-100% bucket, and the fewest votes in the 0%-20% bucket. 
+                            </p>
+                            <ul>
+                                <li>If there's a surge in low-propensity buckets, that means voter turnout is higher than predicted. </li>
+                                <li>Look for differences in party id.</li>
+                            </ul>
+                            <canvas id="myChart2" width="300" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         <div class="panel panel-default">
             <div class="panel-heading">

@@ -15,7 +15,7 @@ export class Helpers {
         return result;
     }
 
-    private static isTrue(val: string): boolean {
+    public static isTrue(val: string): boolean {
         if ((val == "1") || (val.toLowerCase() == "yes")) {
             return true;
         }

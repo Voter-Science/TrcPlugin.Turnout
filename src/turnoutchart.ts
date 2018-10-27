@@ -17,6 +17,8 @@ interface IPoint { // from ChartJS
 const width : number = 5;
 const numBuckets : number = 100  / width;
 
+const numBuckets2 : number = 5;
+
 export class TurnoutChart
 {
     private static NewArray(len : number) : number[] { 
@@ -33,11 +35,16 @@ export class TurnoutChart
         //return Math.floor(x / width);
         return Math.round(x / width);
     }
+    
+    public static Bucket2(x  : number ) : number {
+        return Math.floor(x / (100/numBuckets2));
+    }
 
     public static work(data : trc.ISheetContents, currentVotes : number) : void {
         var colHist = data["History"];
         var colParty = data["Party"];
         var recIds = data["RecId"];
+        var colVoted  = data["XVoted"];
         if (!colHist || !colParty) {
             $("#TurnoutChart").hide();
             return;
@@ -49,8 +56,17 @@ export class TurnoutChart
         var gopScores : number[] = TurnoutChart.NewArray(numBuckets);
         var demScores : number[] = TurnoutChart.NewArray(numBuckets);
         // var scores : number[] = TurnoutChart.NewArray(numBuckets);
-        var totals : number[] = TurnoutChart.NewArray(numBuckets);
-        
+        var totals : number[] = TurnoutChart.NewArray(numBuckets); // if we have a party id 
+        var voted2 : number[][] =  // [Party][Bucket] , party 0...5
+        [ TurnoutChart.NewArray(numBuckets2) , // 0
+            TurnoutChart.NewArray(numBuckets2),
+            TurnoutChart.NewArray(numBuckets2),
+            TurnoutChart.NewArray(numBuckets2),
+            TurnoutChart.NewArray(numBuckets2),
+            TurnoutChart.NewArray(numBuckets2)];
+
+        var totals2 : number[] = TurnoutChart.NewArray(numBuckets2);  // for all, ignoring party id 
+                
         var noHist = 0;
         var projectedVotes = 0;
         for(var i = 0; i < colHist.length; i++)
@@ -68,6 +84,18 @@ export class TurnoutChart
             }
             projectedVotes += (x/100);
             var bucket : number = TurnoutChart.IntPercentToBucket(x);
+
+
+            totals2[TurnoutChart.Bucket2(x)]++;
+            if (h.Helpers.isTrue(colVoted[i]))
+            {
+                var partyId = parseInt(party);
+                if (isNaN(partyId) || partyId > 5 || partyId < 0) {
+                    partyId = 0;
+                }
+                voted2[partyId][TurnoutChart.Bucket2(x)]++;
+            }
+            
 
             // var score = scores[bucket];
             var total = totals[bucket];
@@ -119,6 +147,107 @@ export class TurnoutChart
 
  
         // Chart it!
+
+        // Show Actual vs. Predicted . myChart2 
+        {
+            var labels2 : string[] = [];
+            var backgroundColor : string[][] = [ // [partyId][bucket]
+                [], [], [],[],[],[]
+            ] 
+            var borderColor : string[] = [];
+
+            for(var i = 0; i < totals2.length; i++) {
+                labels2.push(   // "40%-60%"
+                    ((i) * (100/numBuckets2)).toString()+ "%-" + 
+                    ((i+1) * (100/numBuckets2)).toString()+ "%");
+                    
+                backgroundColor[0].push("#BBBBBB");
+                backgroundColor[1].push("#FF0000"); // red 
+                backgroundColor[2].push("#880000");
+                backgroundColor[3].push("#880088"); 
+                backgroundColor[4].push("#000088");
+                backgroundColor[5].push("#0000FF"); // Blue 
+                                
+                borderColor.push("#000000");
+            }
+
+            var barChartData = {
+                labels: labels2,
+                datasets: [{
+                    label: 'Unidentified (0)',
+                    backgroundColor : backgroundColor[0],
+                    borderColor : borderColor,
+                    borderWidth: 1,
+                    data: voted2[0]
+                },
+                {
+                    label: 'Hard GOP (1)',
+                    backgroundColor : backgroundColor[1],
+                    borderColor : borderColor,
+                    borderWidth: 1,
+                    data: voted2[1]
+                },
+                {
+                    label: 'Soft GOP (2)',
+                    backgroundColor : backgroundColor[2],
+                    borderColor : borderColor,
+                    borderWidth: 1,
+                    data: voted2[2]
+                },
+                {
+                    label: 'Ind (3)',
+                    backgroundColor : backgroundColor[3],
+                    borderColor : borderColor,
+                    borderWidth: 1,
+                    data: voted2[3]
+                },{
+                    label: 'Soft Dem (4)',
+                    backgroundColor : backgroundColor[4],
+                    borderColor : borderColor,
+                    borderWidth: 1,
+                    data: voted2[4]
+                },
+                {
+                    label: 'Hard Dem (5)',
+                    backgroundColor : backgroundColor[5],
+                    borderColor : borderColor,
+                    borderWidth: 1,
+                    data: voted2[5]
+                }]
+    
+            };
+            new Chart("myChart2", {
+				type: 'bar',
+				data: barChartData,
+				options: {
+                    scales: {
+                        yAxes: [{
+                            stacked: true,
+                          scaleLabel: {
+                            display: true,
+                            labelString: 'Voter Turnout'
+                          }
+                        }],
+                        xAxes: [{
+                            stacked: true,
+                            scaleLabel: {
+                              display: true,
+                              labelString: 'Propensity buckets'
+                            }
+                          }]
+                      },                    
+                    barPercentage : 1,
+					responsive: true,
+					legend: {
+						position: 'top',
+					},
+					title: {
+						display: true,
+						text: 'Actual Turnout grouped by Propensity'
+                    }                   
+				}
+			});
+        }
 
         // Line in line  http://stackoverflow.com/questions/36329630/chart-js-2-0-vertical-lines
 
@@ -191,7 +320,7 @@ export class TurnoutChart
             // See  http://www.chartjs.org/docs/latest/configuration/elements#point-styles for details here
             data: {
                 labels: labels,
-                lineAtIndex: 2,
+                // lineAtIndex: 2,
                 datasets: [{
                     fill: true,
                     lineTension : 0,
