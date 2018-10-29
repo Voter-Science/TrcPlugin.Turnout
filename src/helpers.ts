@@ -133,6 +133,9 @@ export class Helpers {
         result["PercentOfTotal"] = cPercentOfTotal;
         result["PercentOfVoted"] = cPercentOfVoted;
 
+        var grandTotal = 0;
+        var grandTotalVoted = 0;
+
         for (var key in d) {
             var entry = d[key];
             var label = key;
@@ -153,6 +156,8 @@ export class Helpers {
             var voted = entry[1];
             cTotal.push(total);
             cVoted.push(voted);
+            grandTotal += parseInt(total);
+            grandTotalVoted += parseInt(voted);
 
             var p = Helpers.Per(voted, total);
             cPercentVoted.push(p);
@@ -163,6 +168,15 @@ export class Helpers {
             var p = Helpers.Per(voted, grandTotalVoted);
             cPercentOfVoted.push(p);
         }
+
+        // Add Grand Total
+        cValue.push("TOTAL");
+        cTotal.push(grandTotal.toString());
+        cVoted.push(grandTotalVoted.toString());
+        cPercentVoted.push("");
+        cPercentOfTotal.push("");
+        cPercentOfVoted.push("");
+
 
         return result;
     }

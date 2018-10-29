@@ -268,7 +268,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Basic TRC plugin</title>
+    <title>Turnout Report</title>
 </head>
 <body>
     <div id="prebody">
@@ -329,10 +329,7 @@
                             <td>How large was this group's turnout?</td>
                         </tr>
                     </tbody>
-                </table>
-
-                <h4>XVoted == 1</h4>
-                <div class="heatmap" id="xvoted-1-heatmap"></div>
+                </table>                
             </div>
         </div>
 
@@ -356,12 +353,29 @@
             <div class="panel-body">
                 <div id="xparty-download"></div>
                 <div id="xparty"></div>
+            </div>
+        </div>
 
-                <h4>Party == 1</h4>
-                <div class="heatmap" id="party-1-heatmap"></div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse5">Heatmaps</a>                        
+                </h4>
+            </div>
+            <div id="collapse5" class="panel-collapse">
+                <div class="panel-body">
+                    <p>These show heat maps of turnout. 
+                        Use <a class="plugin">Filter</a> to run queries on 'XVoted' and create custom heat maps. 
+                    </p>
+                    <h4>XVoted == 1</h4>
+                    <div class="heatmap" id="xvoted-1-heatmap"></div>
 
-                <h4>Party == 5</h4>
-                <div class="heatmap" id="party-5-heatmap"></div>
+                    <h4>Party == 1</h4>
+                    <div class="heatmap" id="party-1-heatmap"></div>
+
+                    <h4>Party == 5</h4>
+                    <div class="heatmap" id="party-5-heatmap"></div>
+                </div>
             </div>
         </div>
 
@@ -369,7 +383,7 @@
         <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse1">Trends</a>                        
+                            <a data-toggle="collapse" href="#collapse1">Trends</a>
                     </h4>
                 </div>
                 <div id="collapse1" class="panel-collapse">
@@ -395,10 +409,12 @@
                             <h3>Actual vs. Expected by PartyId</h3>
                             <p>This shows actual turnout grouped by propensity (percent likliness to vote).  Each vertical bar is a propensity bucket, and theneach bar is a stacked chart by party id. 
                                 We expect the higher propensity buckets to have higher turnout. So the majority of votes will be in the 80%-100% bucket, and the fewest votes in the 0%-20% bucket. 
+                                This chart is <b>interactive</b> - click on the legend to show/hide data sets.
                             </p>
                             <ul>
                                 <li>If there's a surge in low-propensity buckets, that means voter turnout is higher than predicted. </li>
                                 <li>Look for differences in party id.</li>
+                                <li>Compare actual turnout to the Total Universe to see surges.</li>
                             </ul>
                             <canvas id="myChart2" width="300" height="150"></canvas>
                         </div>
@@ -409,43 +425,55 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">By Result of contact:</h4>
+                <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse2">By Result of contact:</a>      
+                </h4>
             </div>
-            <div class="panel-body">
-                <p>
-                    This lets you see how your canvassing operation is affecting voter turnout.
-                    In theory, voters that you talked to will have a higher turnout overall than non-contacts. 
-                </p>
-                <div id="xcontact-download"></div>
-                <div id="xcontact"></div>
-            </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">By supporters</h4>
-            </div>
-            <div class="panel-body">
-        
-                <p>'Supporters' are individuals that specifically support your campaign. They may come from both parties. 
-                    Make sure all your supporters vote! <p>      
-                <div id="xsupporter-download"></div>
-                <div id="xsupporter"></div>
-
-                <p>Here is a list of specific individuals that <em>said they'd support you</em> but <em>haven't voted yet</em>.
-                Make sure they vote!<p> 
-                <div id="xs2-download"></div>
-                <div id="xs2"></div>    
+            <div id="collapse2" class="panel-collapse">
+                <div class="panel-body">
+                    <p>
+                        This lets you see how your canvassing operation is affecting voter turnout.
+                        Use <a class="plugin">Audit</a> to drill into specific answers. 
+                        In theory, voters that you talked to will have a higher turnout overall than non-contacts. 
+                    </p>
+                    <div id="xcontact-download"></div>
+                    <div id="xcontact"></div>
+                </div>
             </div>
         </div>
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">Split by precinct</h4>
+                <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse3">By supporters</a>
+                </h4>
             </div>
-            <div class="panel-body">
-                <div id="xprecinct-download"></div>
-                <div id="xprecinct"></div>
+            <div id="collapse3" class="panel-collapse">
+                <div class="panel-body">        
+                    <p>'Supporters' are individuals that specifically support your campaign. They may come from both parties. 
+                        Make sure all your supporters vote! <p>      
+                    <div id="xsupporter-download"></div>
+                    <div id="xsupporter"></div>
+
+                    <p>Here is a list of specific individuals that <em>said they'd support you</em> but <em>haven't voted yet</em>.
+                    Make sure they vote!<p> 
+                    <div id="xs2-download"></div>
+                    <div id="xs2"></div>    
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse4">Split by precinct</a>
+                    </h4>
+            </div>
+            <div id="collapse4" class="panel-collapse">
+                <div class="panel-body">
+                    <div id="xprecinct-download"></div>
+                    <div id="xprecinct"></div>
+                </div>
             </div>
         </div>
     </div>

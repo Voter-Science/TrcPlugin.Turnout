@@ -14,9 +14,34 @@ declare var HeatmapOverlay: any;
 export class MyPlugin {
     private _sheet: trc.Sheet;
     private _options: trc.PluginOptionsHelper;
+    private _opts: trc.IPluginOptions;
 
     // Target election date we show a report for.
     private _electionDate = new Date(2017, 11 - 1, 7); // Aug 2nd, 2016 
+
+    // Scan for all <a> with "plugin" class and make into link. 
+    // <a class="plugin">{PluginId}</a>
+    private applyAllPlugins(): void {
+        $("a.plugin").each((idx : any, e : any) => {
+            // Text is the 
+            var pluginId: string = e.innerText;
+            var url = this.getGotoLinkForPlugin(pluginId);
+            $(e)
+                .attr("href", this.getGotoLinkForPlugin(pluginId))
+                .attr("target", "_blank");
+        });
+    }
+
+    // Where <a id="gotoListView" target="_blank">text</a>
+    // $("#gotoListView").attr("href", this.getGotoLinkForPlugin("ListView"));
+    private getGotoLinkForPlugin(pluginId: string): string {
+        if (this._opts == undefined) {
+            return "/"; // avoid a crash
+        }
+        return this._opts.gotoUrl + "/" + this._sheet.getId() + "/" +
+            pluginId + "/index.html";
+    }
+
 
     // Entry point called from brower. 
     // This creates real browser objects and passes in. 
@@ -26,29 +51,31 @@ export class MyPlugin {
         next: (plugin: MyPlugin) => void
     ): void {
         var trcSheet = new trc.Sheet(sheet);
-        var opts2 = trc.PluginOptionsHelper.New(opts, trcSheet);
+        
 
         html.Loading("prebody2");
         
         // Do any IO here...
 
-        var plugin = new MyPlugin(trcSheet, opts2, next);
+        var plugin = new MyPlugin(trcSheet, opts, next);
         //next(plugin);
     }
 
     // Expose constructor directly for tests. They can pass in mock versions. 
     public constructor(
         sheet: trc.Sheet,
-        opts2: trc.PluginOptionsHelper,
+        opts: trc.IPluginOptions,
         next: (plugin: MyPlugin) => void
     ) {
+        this._opts = opts;
         this._sheet = sheet; // Save for when we do Post
-        this._options = opts2;
+        this._options = trc.PluginOptionsHelper.New(opts, sheet);;
 
         this.refresh2(next);
     }
 
     private refresh2(next: (plugin: MyPlugin) => void) {
+        this.applyAllPlugins();
         this._sheet.getSheetContents(
             data => {
                 if (data["XVoted"] == undefined) {
