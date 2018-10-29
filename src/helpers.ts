@@ -102,7 +102,7 @@ export class Helpers {
         var grandTotalVoted = 0;
         // Count them
         for (var iRow = 0; iRow < c.length; iRow++) {
-            var key: string = c[iRow];
+            var key: string = c[iRow].toLowerCase();
 
             var entry = d[key];
             if (entry == undefined) {
@@ -134,7 +134,6 @@ export class Helpers {
         result["PercentOfVoted"] = cPercentOfVoted;
 
         var grandTotal = 0;
-        var grandTotalVoted = 0;
 
         for (var key in d) {
             var entry = d[key];
@@ -157,7 +156,6 @@ export class Helpers {
             cTotal.push(total);
             cVoted.push(voted);
             grandTotal += parseInt(total);
-            grandTotalVoted += parseInt(voted);
 
             var p = Helpers.Per(voted, total);
             cPercentVoted.push(p);
