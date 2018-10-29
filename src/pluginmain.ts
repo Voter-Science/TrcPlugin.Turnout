@@ -155,24 +155,38 @@ export class MyPlugin {
             $('#xtarget').append($('<p>[No targets set]</p>'));
         }
 
-        var xcontact = h.Helpers.makeHist(data, "ResultOfContact", null);
-        var r = new html.RenderSheet("xcontact", xcontact);
-        r.render();
-        html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xcontact-download"), () => { return xcontact; });
+        if (data["ResultOfContact"] != undefined) 
+        {
+            var xcontact = h.Helpers.makeHist(data, "ResultOfContact", null);
+            var r = new html.RenderSheet("xcontact", xcontact);
+            r.render();
+            html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xcontact-download"), () => { return xcontact; });
+        } else {
+            $('#xcontact').append($('<p>[No ResultOfContact set]</p>'));
+        }
+
 
         // "precinct"
-        var xprecinct = h.Helpers.makeHist(data, "PrecinctName", null);
-        var r = new html.RenderSheet("xprecinct", xprecinct);
-        r.render();
-        html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xprecinct-download"), () => { return xprecinct; });
+        if (data["PrecinctName"] != undefined) 
+        {
+            var xprecinct = h.Helpers.makeHist(data, "PrecinctName", null);
+            var r = new html.RenderSheet("xprecinct", xprecinct);
+            r.render();
+            html.DownloadHelper.appendDownloadCsvButton(document.getElementById("xprecinct-download"), () => { return xprecinct; });
+            }
+            else {
+                $('#xprecinct').append($('<p>[No PrecinctName set]</p>'));
+            }
 
         this.applyBootstrapStyling();
 
-        var party1 = this.getHeatmapData(data, "Party", "1");
-        this.createHeatmap(party1, "party-1-heatmap");
+        if (data["Party"] != undefined) {            
+            var party1 = this.getHeatmapData(data, "Party", "1");
+            this.createHeatmap(party1, "party-1-heatmap");
 
-        var party5 = this.getHeatmapData(data, "Party", "5");
-        this.createHeatmap(party5, "party-5-heatmap");
+            var party5 = this.getHeatmapData(data, "Party", "5");
+            this.createHeatmap(party5, "party-5-heatmap");
+        }
 
         var xvoted1 = this.getHeatmapData(data, "XVoted", "1");
         this.createHeatmap(xvoted1, "xvoted-1-heatmap");
